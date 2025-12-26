@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Ashuu 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Courier+Prime&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --maroon: #4A0E0E;
+            --cream: #F9F4E8;
+            --gold: #D4AF37;
+            --candle-flame: #ff6600;
+        }
+
+        /* --- Global Reset & Animations --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--maroon);
+            color: var(--cream);
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: background 1s ease;
+        }
+
+        /* --- Animation Keyframes --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes pulseGold {
+            0% { text-shadow: 0 0 5px var(--gold); }
+            50% { text-shadow: 0 0 20px var(--gold), 0 0 30px #fff; }
+            100% { text-shadow: 0 0 5px var(--gold); }
+        }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+        @keyframes glowPulse {
+            from { opacity: 0.4; box-shadow: inset 0 0 50px var(--gold); }
+            to { opacity: 0.9; box-shadow: inset 0 0 150px var(--gold); }
+        }
+
+        /* --- Screen Transitions --- */
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding: 60px 20px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .active { 
+            display: flex; 
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- UI Elements --- */
+        .retro-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: slideDown 1s ease, pulseGold 3s infinite;
+        }
+        .enter-btn {
+            background: var(--cream);
+            color: var(--maroon);
+            border: 2px solid var(--cream);
+            padding: 12px 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: 'Courier Prime', monospace;
+            font-weight: bold;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 10px;
+            position: relative;
+            z-index: 10;
+        }
+        .enter-btn:hover {
+            background: transparent;
+            color: var(--cream);
+            box-shadow: 0 0 20px var(--gold);
+            transform: scale(1.1);
+        }
+
+        /* --- Memories --- */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .polaroid {
+            background: white; padding: 10px 10px 25px 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            animation: zoomIn 0.8s ease backwards;
+        }
+        .polaroid img { width: 150px; height: 150px; object-fit: cover; }
+        .polaroid:nth-child(even) { transform: rotate(3deg); }
+        .polaroid:nth-child(odd) { transform: rotate(-3deg); }
+
+        /* --- Envelopes --- */
+        .envelope-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px; max-width: 800px; width: 100%; margin-top: 20px;
+        }
+        .envelope {
+            background: #c0392b; height: 100px; position: relative; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            animation: float 3s infinite ease-in-out;
+        }
+        .letter-content {
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: var(--cream); color: var(--maroon); padding: 40px;
+            width: 80%; max-width: 400px; border-radius: 5px; z-index: 100;
+            font-family: 'Dancing Script', cursive; font-size: 1.8rem;
+            animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* --- Puzzle --- */
+        #puzzle-box { background: rgba(255,255,255,0.1); padding: 30px; border: 2px dashed var(--gold); }
+        .scrambled-word { font-size: 2rem; letter-spacing: 10px; color: var(--gold); animation: float 4s infinite ease-in-out; }
+
+        /* --- Special Surprise --- */
+        .fairy-lights { display: none; position: fixed; top: 0; width: 100%; height: 50px; z-index: 5; }
+        .light-bulb { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; display: inline-block; margin: 5px 15px; box-shadow: 0 0 10px var(--gold); animation: blink 1.5s infinite alternate; }
+        @keyframes blink { from { opacity: 0.4; } to { opacity: 1; } }
+        
+        .ribbon { display: none; position: fixed; top: 60px; background: #800000; color: var(--cream); padding: 10px 50px; font-family: 'Dancing Script', cursive; font-size: 2rem; border: 2px solid var(--gold); z-index: 10; }
+
+        #cake-container { display: none; margin: 40px 0; position: relative; animation: zoomIn 1s ease; }
+        .cake { width: 200px; height: 120px; background: #ead9c5; border-radius: 10px 10px 0 0; position: relative; }
+        .icing { position: absolute; top: -10px; width: 100%; height: 25px; background: var(--cream); border-radius: 50%; }
+        .flame { display: none; width: 12px; height: 18px; background: var(--candle-flame); border-radius: 50%; position: absolute; top: -20px; animation: flicker 0.1s infinite; }
+        @keyframes flicker { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        
+        #big-birthday-msg { display: none; font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--gold); margin-top: 30px; }
+        .balloon { display: none; position: fixed; bottom: -100px; width: 50px; height: 70px; border-radius: 50%; z-index: 2; animation: floatUp 6s linear infinite; }
+        @keyframes floatUp { to { transform: translateY(-120vh) rotate(20deg); } }
+
+        /* --- Proposal Overlay --- */
+        #proposal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--maroon); z-index: 1000; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; padding: 20px;
+        }
+        #proposal-question { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--gold); margin-bottom: 40px; }
+
+        /* --- CELEBRATION EFFECTS --- */
+        .confetti {
+            position: fixed; width: 10px; height: 10px; z-index: 1001; top: -20px;
+            animation: fall linear forwards;
+        }
+        .sparkle-glow {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 999;
+            animation: glowPulse 1.5s infinite alternate;
+        }
+
+        @media (max-width: 600px) {
+            .photo-grid { grid-template-columns: repeat(2, 1fr); }
+            .retro-title { font-size: 1.8rem; }
+            #proposal-question { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="fairy-lights" class="fairy-lights"></div>
+    <div id="birthday-ribbon" class="ribbon">Happy Birthday Ashuu!</div>
+
+    <audio id="bg-music" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 1. Splash Screen -->
+    <section id="splash-screen" class="screen active">
+        <h1 class="retro-title">A Retro Love Story</h1>
+        <p style="font-family: 'Courier Prime'; margin-bottom: 30px;">Every moment with you is a vintage dream.</p>
+        <button class="enter-btn" onclick="startApp()">ENTER THE WORLD OF ASHUU</button>
+    </section>
+
+    <!-- 2. Main Menu -->
+    <section id="main-screen" class="screen">
+        <h1 style="font-family: 'Dancing Script'; font-size: 4rem; color: var(--gold); animation: pulseGold 2s infinite;">Helluuu My Bacchhaaa 💖</h1>
+        <div class="nav-buttons" style="display: flex; flex-direction: column; gap: 10px;">
+            <button class="enter-btn" onclick="showScreen('memories-screen')">Our Memories</button>
+            <button class="enter-btn" onclick="showScreen('letters-screen')">Letters for You</button>
+            <button class="enter-btn" onclick="showScreen('puzzle-screen')">The Love Challenge</button>
+            <button class="enter-btn" onclick="showScreen('surprise-screen')">Special Surprise</button>
+        </div>
+    </section>
+
+    <!-- 3. Memories Screen -->
+    <section id="memories-screen" class="screen">
+        <h2 class="retro-title">Our Memories</h2>
+	<p style="font-family: 'Courier Prime';">Here are some memories I tried to make.</p>
+        <div class="photo-grid">
+            <div class="polaroid"><img src="ashu6.jpeg"></div>
+            <div class="polaroid"><img src="ashu5.jpeg"></div>
+            <div class="polaroid"><img src="ashuu1.jpg"></div>
+            <div class="polaroid"><img src="ashu7.jpeg"></div>
+            <div class="polaroid"><img src="ashuu4.jpg"></div>
+            <div class="polaroid"><img src="ashuu3.jpg"></div>
+        </div>
+        <button class="enter-btn" onclick="showScreen('main-screen')">Back</button>
+    </section>
+
+    <!-- 4. Letters Screen -->
+    <section id="letters-screen" class="screen">
+        <h2 class="retro-title">Open for Ashuu</h2>
+        <div class="envelope-container">
+            <div class="envelope" onclick="openLetter('Happy Birthday, my love Ashuu 💖')">💌</div>
+            <div class="envelope" onclick="openLetter('You are the melody in my heart 🎶')">💌</div>
+            <div class="envelope" onclick="openLetter('Every day with you feels like a blessing 🌹')">💌</div>
+            <div class="envelope" onclick="openLetter('Every time my phone lights up with your name, the distance disappears for a moment 🤭')">💌</div>
+            <div class="envelope" onclick="openLetter('Though I can’t hold your hand right now, I carry the warmth of your touch in my memory ✨')">💌</div>
+            <div class="envelope" onclick="openLetter('Forever yours myy bacchhaaaa ❤️')">💌</div>
+        </div>
+        <button class="enter-btn" onclick="showScreen('main-screen')" style="margin-top: 40px;">Back</button>
+        <div id="letter-modal" class="letter-content">
+            <p id="letter-text"></p>
+            <button class="enter-btn" onclick="closeLetter()" style="margin-top: 20px;">Close</button>
+        </div>
+    </section>
+
+    <!-- 5. Puzzle Screen -->
+    <section id="puzzle-screen" class="screen">
+        <h2 class="retro-title">Love Puzzle</h2>
+        <div id="puzzle-box">
+            <p>Unscramble the word to see a message:</p>
+            <div class="scrambled-word">B Y A B I R G L</div>
+            <input type="text" id="puzzle-input" placeholder="Type here...">
+            <br><br>
+            <button class="enter-btn" onclick="checkPuzzle()">Unlock Message</button>
+        </div>
+        <h3 id="puzzle-success-msg" style="display:none; margin-top: 20px; font-family: 'Dancing Script'; font-size: 2rem; color: var(--gold);">
+            Ashuu, you complete me — just like this puzzle 💞
+        </h3>
+        <button class="enter-btn" onclick="showScreen('main-screen')" style="margin-top: 40px;">Back</button>
+    </section>
+
+    <!-- 6. Special Surprise Screen -->
+    <section id="surprise-screen" class="screen">
+        <div id="cake-container">
+            <div class="candles-box" style="display:flex; justify-content:center; gap:15px; position:absolute; top:-50px; width:100%;">
+                <div class="candle" style="width:10px; height:50px; background:linear-gradient(var(--gold), white); position:relative;"><div class="flame"></div></div>
+                <div class="candle" style="width:10px; height:50px; background:linear-gradient(var(--gold), white); position:relative;"><div class="flame"></div></div>
+                <div class="candle" style="width:10px; height:50px; background:linear-gradient(var(--gold), white); position:relative;"><div class="flame"></div></div>
+            </div>
+            <div class="cake"><div class="icing"></div></div>
+        </div>
+        <h2 id="big-birthday-msg">Happy Birthday My Darlingg 💞</h2>
+        <p id="pre-proposal-msg" style="display:none; font-family: 'Dancing Script'; font-size: 2.2rem; margin: 20px 0; color: var(--gold);">Ashuu my dear, i wanted to ask you something</p>
+        <div id="surprise-controls">
+            <button class="enter-btn" id="btn-decorate" onclick="decorateScreen()">Decorate</button>
+            <button class="enter-btn" id="btn-candles" style="display:none;" onclick="addCandles()">Add Candles</button>
+            <button class="enter-btn" id="btn-light" style="display:none;" onclick="lightCandles()">Light Candles</button>
+            <button class="enter-btn" id="btn-one-last" style="display:none;" onclick="showPreProposal()">One Last Thing</button>
+            <button class="enter-btn" id="btn-arrow" style="display:none;" onclick="triggerProposal()"> → </button>
+        </div>
+        <button class="enter-btn" id="btn-back-surprise" style="margin-top: 50px;" onclick="showScreen('main-screen')">Back</button>
+    </section>
+
+    <!-- 7. Proposal Overlay -->
+    <div id="proposal-overlay">
+        <div id="proposal-content">
+            <h2 id="proposal-question">Will you be Girlfriend, My Ashuu?</h2>
+            <div id="proposal-buttons">
+                <button class="enter-btn" onclick="handleFinalResponse('yes')">Yes</button>
+                <button class="enter-btn" onclick="handleFinalResponse('no')">No</button>
+            </div>
+        </div>
+        <div id="final-response-container" style="display:none; position: relative; z-index: 1002;">
+            <p id="final-response-text" style="font-family: 'Dancing Script'; font-size: 2rem; color: #fff; max-width: 800px;"></p>
+            <button class="enter-btn" style="margin-top:30px" onclick="location.reload()">Start Over ❤️</button>
+        </div>
+    </div>
+
+    <script>
+        function startApp() {
+            document.getElementById('bg-music').play().catch(() => {});
+            showScreen('main-screen');
+        }
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function openLetter(msg) {
+            document.getElementById('letter-text').innerText = msg;
+            document.getElementById('letter-modal').style.display = 'block';
+        }
+
+        function closeLetter() { document.getElementById('letter-modal').style.display = 'none'; }
+
+        function checkPuzzle() {
+            const val = document.getElementById('puzzle-input').value.toUpperCase().replace(/\s/g, '');
+            if(val === "BABYGIRL") {
+                document.getElementById('puzzle-success-msg').style.display = 'block';
+                document.getElementById('puzzle-box').style.display = 'none';
+            } else { alert("Try again, my love!"); }
+        }
+
+        function decorateScreen() {
+            const lightContainer = document.getElementById('fairy-lights');
+            lightContainer.style.display = 'block';
+            for(let i=0; i<20; i++) {
+                const bulb = document.createElement('div');
+                bulb.className = 'light-bulb';
+                lightContainer.appendChild(bulb);
+            }
+            document.getElementById('birthday-ribbon').style.display = 'block';
+            spawnBalloons(15);
+            document.getElementById('btn-decorate').style.display = 'none';
+            document.getElementById('btn-candles').style.display = 'inline-block';
+            document.getElementById('cake-container').style.display = 'block';
+        }
+
+        function spawnBalloons(count) {
+            for(let i=0; i<count; i++) {
+                const b = document.createElement('div');
+                b.className = 'balloon';
+                b.style.display = 'block';
+                b.style.left = Math.random() * 90 + 'vw';
+                b.style.backgroundColor = i % 2 === 0 ? 'var(--gold)' : '#ff4444';
+                b.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(b);
+            }
+        }
+
+        function addCandles() {
+            document.getElementById('btn-candles').style.display = 'none';
+            document.getElementById('btn-light').style.display = 'inline-block';
+        }
+
+        function lightCandles() {
+            document.querySelectorAll('.flame').forEach(f => f.style.display = 'block');
+            document.getElementById('big-birthday-msg').style.display = 'block';
+            document.getElementById('btn-light').style.display = 'none';
+            document.getElementById('btn-one-last').style.display = 'inline-block';
+        }
+
+        function showPreProposal() {
+            document.getElementById('cake-container').style.display = 'none';
+            document.getElementById('big-birthday-msg').style.display = 'none';
+            document.getElementById('btn-one-last').style.display = 'none';
+            document.getElementById('btn-back-surprise').style.display = 'none';
+            document.getElementById('pre-proposal-msg').style.display = 'block';
+            document.getElementById('btn-arrow').style.display = 'inline-block';
+        }
+
+        function triggerProposal() { document.getElementById('proposal-overlay').style.display = 'flex'; }
+
+        function handleFinalResponse(choice) {
+            document.getElementById('proposal-content').style.display = 'none';
+            const container = document.getElementById('final-response-container');
+            const text = document.getElementById('final-response-text');
+            container.style.display = 'block';
+
+            if(choice === 'yes') {
+                text.innerText = "Ashuu, you’ve just made me the happiest person in the world. Thank you for saying yes — I promise to cherish you, love you endlessly, and make every day as special as today. You are my sunshine, my safe place, and my forever. Happy Birthday, my love… and now, my girlfriend 💕.";
+                startCelebration();
+            } else {
+                text.innerText = "Ashuu, thank you for being honest with me. No matter what, you are so special to me, and I’m grateful for every smile, every memory, and every moment we share. I’ll always cherish you and celebrate the amazing person you are. Happy Birthday, my dear — you’ll always have a place in my heart 💕.";
+            }
+        }
+
+        function startCelebration() {
+            // 1. Add Sparkling Glow
+            const glow = document.createElement('div');
+            glow.className = 'sparkle-glow';
+            document.body.appendChild(glow);
+
+            // 2. Spawn intense Balloons
+            spawnBalloons(30);
+
+            // 3. Spawn Confetti
+            for(let i=0; i<150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = ['#D4AF37', '#ffffff', '#ff4444', '#ff6600', '#F9F4E8'][Math.floor(Math.random() * 5)];
+                confetti.style.width = Math.random() * 8 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(confetti);
+            }
+        }
+    </script>
+</body>
+</html>
